@@ -30,6 +30,8 @@ class TestMeme < MiniTest::Unit::TestCase
     assert "test\ntest".bad?
     assert "test test test".bad?
     assert "香港 香港 ".bad?
+    assert "testtesttesttesttest".bad?
+
   end
 
 end
