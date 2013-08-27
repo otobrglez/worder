@@ -7,35 +7,29 @@ require 'minitest/autorun'
 
 class String
   def good?
-    self.match /\w+/
+    self.match /\A\S{1,10}(\ \S{1,10})?\z/
   end
+
+  def bad?
+    not good?
+  end
+
 end
 
 class TestMeme < MiniTest::Unit::TestCase
 
-  def setup
-    @good_examples=[
-      "cat",
-      "kategorija",
-      "kategorija kategorija"
-    ]
+  def test_expression
+    assert "test".good?
+    assert "test test".good?
+    assert "Party 2000".good?
+    assert "香港".good?
+    assert "香港 香港".good?
 
-    @bad_examples=[
-      "cat cat cat",
-      "dolgadolgadolga dolgadolgadolga"
-    ]
-  end
-
-  def test_good_examples
-    @good_examples.each do |e|
-      assert e.good?
-    end
-  end
-
-  def test_bad_examples
-    @bad_examples.each do |e|
-      assert_equal true, (e.good? == true)
-    end
+    assert "test ".bad?
+    assert "test  ".bad?
+    assert "test\ntest".bad?
+    assert "test test test".bad?
+    assert "香港 香港 ".bad?
   end
 
 end
